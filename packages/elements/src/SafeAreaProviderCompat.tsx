@@ -16,6 +16,7 @@ import {
 type Props = {
   children: React.ReactNode;
   style?: StyleProp<ViewStyle>;
+  flatChildren?: boolean
 };
 
 const { width = 0, height = 0 } = Dimensions.get('window');
@@ -31,7 +32,7 @@ const initialMetrics =
       }
     : initialWindowMetrics;
 
-export default function SafeAreaProviderCompat({ children, style }: Props) {
+export default function SafeAreaProviderCompat({ children, style, flatChildren }: Props) {
   return (
     <SafeAreaInsetsContext.Consumer>
       {(insets) => {
@@ -39,7 +40,11 @@ export default function SafeAreaProviderCompat({ children, style }: Props) {
           // If we already have insets, don't wrap the stack in another safe area provider
           // This avoids an issue with updates at the cost of potentially incorrect values
           // https://github.com/react-navigation/react-navigation/issues/174
-          return children;
+          if (flatChildren) {
+            return children;
+          } else {
+            return <View style={[styles.container, style]}>{children}</View>;
+          }
         }
 
         return (

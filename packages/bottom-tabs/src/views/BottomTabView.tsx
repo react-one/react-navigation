@@ -89,7 +89,7 @@ export default function BottomTabView(props: Props) {
   const { routes } = state;
 
   return (
-    <SafeAreaProviderCompat>
+    <SafeAreaProviderCompat flatChildren>
       <MaybeScreenContainer
         enabled={detachInactiveScreens}
         style={styles.container}
